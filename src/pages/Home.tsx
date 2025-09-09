@@ -10,8 +10,30 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const STORAGE_KEY = "initiative-tracker-characters";
 
+function encodeCharacters(chars: Character[]): string {
+  try {
+    return btoa(encodeURIComponent(JSON.stringify(chars)));
+  } catch {
+    return "";
+  }
+}
+
+function decodeCharacters(str: string): Character[] {
+  try {
+    return JSON.parse(decodeURIComponent(atob(str)));
+  } catch {
+    return [];
+  }
+}
+
 export default function Home() {
+  // Try to load from URL first
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlData = urlParams.get("data");
   const [characters, setCharacters] = React.useState<Character[]>(() => {
+    if (urlData) {
+      return decodeCharacters(urlData);
+    }
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       try {
@@ -23,8 +45,17 @@ export default function Home() {
     return [];
   });
 
+  // Save to localStorage and update URL
   React.useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(characters));
+    const encoded = encodeCharacters(characters);
+    const url = new URL(window.location.href);
+    if (encoded) {
+      url.searchParams.set("data", encoded);
+    } else {
+      url.searchParams.delete("data");
+    }
+    window.history.replaceState({}, "", url.toString());
   }, [characters]);
   const [formOpen, setFormOpen] = React.useState(false);
   const [editCharacter, setEditCharacter] = React.useState<

@@ -74,7 +74,13 @@ export default function CharacterForm({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        sx: { borderRadius: 4 },
+      }}
+    >
       <DialogTitle>{edit ? "Edit Character" : "Create Character"}</DialogTitle>
       <DialogContent>
         <form onSubmit={onSubmit} id="character-form">

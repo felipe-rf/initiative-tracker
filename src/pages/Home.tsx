@@ -169,7 +169,13 @@ export default function Home() {
       <Stack spacing={2}>
         <AnimatePresence>
           {characters.map((character) => (
-            <motion.div key={character.id} layout>
+            <motion.div
+              key={character.id}
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0 }}
+              layout
+            >
               <CharacterCard
                 key={character.id}
                 character={character}
@@ -185,7 +191,12 @@ export default function Home() {
         variant="contained"
         color="primary"
         onClick={handleAddClick}
-        style={{ marginBottom: 16, marginTop: 16 }}
+        style={{
+          marginBottom: 16,
+          marginTop: 16,
+          fontWeight: "bold",
+          borderRadius: 16,
+        }}
       >
         Add Character
       </Button>

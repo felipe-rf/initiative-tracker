@@ -33,7 +33,13 @@ export default function DamageForm({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      PaperProps={{
+        sx: { borderRadius: 4 },
+      }}
+    >
       <DialogTitle>Damage Character</DialogTitle>
       <DialogContent>
         <form onSubmit={handleFormSubmit} id="damage-form">

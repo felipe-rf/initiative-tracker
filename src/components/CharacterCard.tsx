@@ -30,8 +30,7 @@ export default function CharacterCard({
         flexDirection: { xs: "column", sm: "row" },
         alignItems: { xs: "stretch", sm: "center" },
         gap: { xs: 1.2, sm: 2 },
-        border: "1px solid #ccc",
-        borderRadius: 2,
+        borderRadius: 4,
         p: { xs: 1, sm: 2 },
         justifyContent: { xs: "flex-start", sm: "space-between" },
         flexWrap: { xs: "nowrap", sm: "wrap" },
@@ -39,6 +38,7 @@ export default function CharacterCard({
         boxShadow: { xs: 1, sm: 2 },
         maxWidth: { xs: "100%", sm: 600, md: 800 },
         width: "100%",
+        backgroundColor: "secondary.main",
       }}
     >
       <div
@@ -196,7 +196,7 @@ export default function CharacterCard({
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "lightgreen",
+            backgroundColor: "#69B578",
             minWidth: { xs: 32, sm: 40 },
             minHeight: { xs: 32, sm: 40 },
             p: 0,
@@ -210,7 +210,7 @@ export default function CharacterCard({
         <Button
           variant="contained"
           sx={{
-            backgroundColor: "red",
+            backgroundColor: "#D76C6C",
             minWidth: { xs: 32, sm: 40 },
             minHeight: { xs: 32, sm: 40 },
             p: 0,

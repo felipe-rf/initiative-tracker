@@ -16,6 +16,7 @@ interface CharacterFormProps {
   edit?: boolean;
   character?: Character;
   onDelete?: () => void;
+  onDuplicate?: (character: Omit<Character, "id">) => void;
 }
 
 export default function CharacterForm({
@@ -25,7 +26,15 @@ export default function CharacterForm({
   edit = false,
   character,
   onDelete,
+  onDuplicate,
 }: CharacterFormProps) {
+  const handleDuplicate = () => {
+    if (onDuplicate && character) {
+      const { id, ...rest } = character;
+      onDuplicate(rest);
+      handleClose();
+    }
+  };
   const [form, setForm] = React.useState<Omit<Character, "id">>({
     name: character?.name || "",
     maxHp: character?.maxHp || 0,
@@ -250,6 +259,9 @@ export default function CharacterForm({
           <Button onClick={onDelete} color="error">
             Delete
           </Button>
+        )}
+        {edit && onDuplicate && (
+          <Button onClick={handleDuplicate}>Duplicate</Button>
         )}
         <Button onClick={handleClose}>Cancel</Button>
         <Button type="submit" form="character-form">

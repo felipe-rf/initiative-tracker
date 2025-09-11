@@ -44,7 +44,6 @@ export default function Home() {
     }
     return [];
   });
-
   // Save to localStorage and update URL
   React.useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(characters));
@@ -171,10 +170,16 @@ export default function Home() {
           {characters.map((character) => (
             <motion.div
               key={character.id}
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0 }}
+              initial={{ scale: 0, transition: { duration: 0.1 } }}
+              animate={{ scale: 1, transition: { duration: 0.1 } }}
+              exit={{ scale: 0, transition: { duration: 0.1 } }}
+              whileHover={{
+                scale: 1.02,
+                zIndex: 2,
+                transition: { duration: 0.2 },
+              }}
               layout
+              style={{ flex: 1, originX: 0.5, originY: 0.5 }}
             >
               <CharacterCard
                 key={character.id}
@@ -185,21 +190,23 @@ export default function Home() {
               />
             </motion.div>
           ))}
+          <motion.div layout>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAddClick}
+              style={{
+                marginBottom: 16,
+                marginTop: 16,
+                fontWeight: "bold",
+                borderRadius: 16,
+              }}
+            >
+              Add Character
+            </Button>
+          </motion.div>
         </AnimatePresence>
       </Stack>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleAddClick}
-        style={{
-          marginBottom: 16,
-          marginTop: 16,
-          fontWeight: "bold",
-          borderRadius: 16,
-        }}
-      >
-        Add Character
-      </Button>
       <CharacterForm
         open={formOpen}
         handleClose={() => {
@@ -215,6 +222,15 @@ export default function Home() {
         character={editCharacter}
         onDelete={
           editCharacter ? () => handleDelete(editCharacter.id) : undefined
+        }
+        onDuplicate={
+          editCharacter
+            ? (data) => {
+                const nextId = Math.max(0, ...characters.map((c) => c.id)) + 1;
+                setCharacters((prev) => [...prev, { ...data, id: nextId }]);
+                sortCharacters();
+              }
+            : undefined
         }
       />
       <HealForm
@@ -237,7 +253,7 @@ export default function Home() {
                   editCharacter.maxHp
                 ) <= 0
                   ? true
-                  : editCharacter.dead,
+                  : false,
               tempHp: Math.min(
                 editCharacter.tempHp + tempAmount,
                 editCharacter.maxHp

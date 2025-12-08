@@ -149,7 +149,7 @@ export default function Home() {
 
   return (
     <Container>
-      <h1>Initiative Tracker</h1>
+      <h1 data-testid="title">Initiative Tracker</h1>
       <div
         style={{
           marginBottom: 20,
@@ -161,8 +161,10 @@ export default function Home() {
           gap: 8,
         }}
       >
-        <p>Made by</p>
-        <a href="https://github.com/felipe-rf">Felipe Ferreira</a>
+        <p data-testid="made-by">Made by</p>
+        <a data-testid="made-by-link" href="https://feliperf.dev">
+          Felipe Ferreira
+        </a>
       </div>
 
       <Stack spacing={2}>
@@ -192,6 +194,7 @@ export default function Home() {
           ))}
           <motion.div layout>
             <Button
+              data-testid="add-character-button"
               variant="contained"
               color="primary"
               onClick={handleAddClick}

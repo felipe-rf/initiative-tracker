@@ -39,10 +39,18 @@ export default function DamageForm({
       PaperProps={{
         sx: { borderRadius: 4 },
       }}
+      data-testid="damage-form-dialog"
     >
-      <DialogTitle>Damage Character</DialogTitle>
+      <DialogTitle data-testid="damage-form-title">
+        Damage Character
+      </DialogTitle>
+
       <DialogContent>
-        <form onSubmit={handleFormSubmit} id="damage-form">
+        <form
+          onSubmit={handleFormSubmit}
+          id="damage-form"
+          data-testid="damage-form"
+        >
           <TextField
             autoFocus
             required
@@ -55,13 +63,23 @@ export default function DamageForm({
             variant="standard"
             value={amount}
             onChange={handleChange}
-            inputProps={{ min: 1 }}
+            inputProps={{
+              min: 1,
+              "data-testid": "input-damage-amount",
+            }}
           />
         </form>
       </DialogContent>
+
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit" form="damage-form">
+        <Button data-testid="btn-cancel-damage" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button
+          data-testid="btn-submit-damage"
+          type="submit"
+          form="damage-form"
+        >
           Damage
         </Button>
       </DialogActions>

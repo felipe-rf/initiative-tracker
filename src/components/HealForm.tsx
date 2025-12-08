@@ -25,10 +25,6 @@ export default function HealForm({
     setTempAmount(0);
   }, [open]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(Number(e.target.value));
-  };
-
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(amount, tempAmount);
@@ -38,13 +34,16 @@ export default function HealForm({
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        sx: { borderRadius: 4 },
-      }}
+      PaperProps={{ sx: { borderRadius: 4 } }}
+      data-testid="heal-form-dialog"
     >
-      <DialogTitle>Heal Character</DialogTitle>
+      <DialogTitle data-testid="heal-form-title">Heal Character</DialogTitle>
       <DialogContent>
-        <form onSubmit={handleFormSubmit} id="heal-form">
+        <form
+          onSubmit={handleFormSubmit}
+          id="heal-form"
+          data-testid="heal-form"
+        >
           <TextField
             autoFocus
             required
@@ -56,8 +55,9 @@ export default function HealForm({
             fullWidth
             variant="standard"
             value={amount}
-            onChange={handleChange}
+            onChange={(e) => setAmount(Number(e.target.value))}
             inputProps={{ min: 0 }}
+            data-testid="input-heal-amount"
           />
           <TextField
             margin="dense"
@@ -70,12 +70,15 @@ export default function HealForm({
             value={tempAmount}
             onChange={(e) => setTempAmount(Number(e.target.value))}
             inputProps={{ min: 0 }}
+            data-testid="input-temp-heal-amount"
           />
         </form>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit" form="heal-form">
+        <Button onClick={handleClose} data-testid="btn-cancel-heal">
+          Cancel
+        </Button>
+        <Button type="submit" form="heal-form" data-testid="btn-submit-heal">
           Heal
         </Button>
       </DialogActions>

@@ -35,6 +35,7 @@ export default function CharacterForm({
       handleClose();
     }
   };
+
   const [form, setForm] = React.useState<Omit<Character, "id">>({
     name: character?.name || "",
     maxHp: character?.maxHp || 0,
@@ -71,7 +72,6 @@ export default function CharacterForm({
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Convert numeric fields
     handleSubmit({
       ...form,
       maxHp: Number(form.maxHp),
@@ -86,20 +86,20 @@ export default function CharacterForm({
     <Dialog
       open={open}
       onClose={handleClose}
-      PaperProps={{
-        sx: { borderRadius: 4 },
-      }}
+      PaperProps={{ sx: { borderRadius: 4 } }}
+      data-testid="character-form-dialog"
     >
-      <DialogTitle>{edit ? "Edit Character" : "Create Character"}</DialogTitle>
+      <DialogTitle data-testid="character-form-title">
+        {edit ? "Edit Character" : "Create Character"}
+      </DialogTitle>
+
       <DialogContent>
-        <form onSubmit={onSubmit} id="character-form">
-          <div
-            style={{
-              display: "flex",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-          >
+        <form
+          onSubmit={onSubmit}
+          id="character-form"
+          data-testid="character-form"
+        >
+          <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
             <TextField
               autoFocus
               required
@@ -112,14 +112,10 @@ export default function CharacterForm({
               variant="standard"
               value={form.name}
               onChange={handleChange}
+              inputProps={{ "data-testid": "input-name" }}
             />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 12,
-              }}
-            >
+
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <label
                 htmlFor="color"
                 style={{
@@ -129,9 +125,9 @@ export default function CharacterForm({
                   cursor: "pointer",
                 }}
               >
-                <span style={{ fontSize: 16 }}>Color</span>
-
+                <span>Color</span>
                 <span
+                  data-testid="color-preview"
                   style={{
                     display: "inline-block",
                     width: 32,
@@ -139,7 +135,6 @@ export default function CharacterForm({
                     borderRadius: "50%",
                     background: form.color,
                     border: "2px solid #ccc",
-                    boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
                   }}
                 />
                 <input
@@ -148,6 +143,7 @@ export default function CharacterForm({
                   type="color"
                   value={form.color}
                   onChange={handleChange}
+                  data-testid="input-color"
                   style={{
                     opacity: 0,
                     width: 32,
@@ -160,6 +156,7 @@ export default function CharacterForm({
               </label>
             </div>
           </div>
+
           <div style={{ display: "flex", gap: "1rem" }}>
             <TextField
               required
@@ -172,7 +169,7 @@ export default function CharacterForm({
               variant="standard"
               value={form.currentHp}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, "data-testid": "input-currentHp" }}
             />
             <TextField
               margin="dense"
@@ -184,7 +181,7 @@ export default function CharacterForm({
               variant="standard"
               value={form.tempHp}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, "data-testid": "input-tempHp" }}
             />
             <TextField
               required
@@ -197,9 +194,10 @@ export default function CharacterForm({
               variant="standard"
               value={form.maxHp}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, "data-testid": "input-maxHp" }}
             />
           </div>
+
           <div style={{ display: "flex", gap: "1rem" }}>
             <TextField
               required
@@ -212,7 +210,7 @@ export default function CharacterForm({
               variant="standard"
               value={form.ac}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, "data-testid": "input-ac" }}
             />
             <TextField
               required
@@ -225,9 +223,10 @@ export default function CharacterForm({
               variant="standard"
               value={form.initiative}
               onChange={handleChange}
-              inputProps={{ min: 0 }}
+              inputProps={{ min: 0, "data-testid": "input-initiative" }}
             />
           </div>
+
           <TextField
             margin="dense"
             id="link"
@@ -238,15 +237,19 @@ export default function CharacterForm({
             variant="standard"
             value={form.link}
             onChange={handleChange}
+            inputProps={{ "data-testid": "input-link" }}
           />
+
           {edit && (
             <FormControlLabel
+              data-testid="input-dead-wrapper"
               control={
                 <Checkbox
                   checked={form.dead}
                   onChange={handleChange}
                   name="dead"
                   color="primary"
+                  data-testid="input-dead"
                 />
               }
               label="Dead"
@@ -254,17 +257,22 @@ export default function CharacterForm({
           )}
         </form>
       </DialogContent>
+
       <DialogActions>
         {edit && onDelete && (
-          <Button onClick={onDelete} color="error">
+          <Button data-testid="btn-delete" onClick={onDelete} color="error">
             Delete
           </Button>
         )}
         {edit && onDuplicate && (
-          <Button onClick={handleDuplicate}>Duplicate</Button>
+          <Button data-testid="btn-duplicate" onClick={handleDuplicate}>
+            Duplicate
+          </Button>
         )}
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button type="submit" form="character-form">
+        <Button data-testid="btn-cancel" onClick={handleClose}>
+          Cancel
+        </Button>
+        <Button data-testid="btn-submit" type="submit" form="character-form">
           {edit ? "Save" : "Create"}
         </Button>
       </DialogActions>

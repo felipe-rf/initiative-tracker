@@ -40,6 +40,7 @@ export default function CharacterCard({
         width: "100%",
         backgroundColor: "secondary.main",
       }}
+      data-testid={`character-card-${character.id}`}
     >
       <div
         style={{
@@ -79,7 +80,10 @@ export default function CharacterCard({
               }}
             >
               {character.dead ? (
-                <IconSkull size={22} />
+                <IconSkull
+                  size={22}
+                  data-testid={`icon-skull-${character.id}`}
+                />
               ) : (
                 <span style={{ fontWeight: 600 }}>
                   {getInitials(character.name)}
@@ -109,7 +113,10 @@ export default function CharacterCard({
               }}
             >
               {character.dead ? (
-                <IconSkull size={22} />
+                <IconSkull
+                  size={22}
+                  data-testid={`icon-skull-${character.id}`}
+                />
               ) : (
                 <span style={{ fontWeight: 600 }}>
                   {getInitials(character.name)}
@@ -160,9 +167,18 @@ export default function CharacterCard({
             fontWeight: 500,
           }}
         >
-          HP: <span style={{ fontWeight: 700 }}>{character.currentHp}</span>
+          HP:{" "}
+          <span
+            style={{ fontWeight: 700 }}
+            data-testid={`current-hp-${character.id}`}
+          >
+            {character.currentHp}
+          </span>
           {character.tempHp ? (
-            <span style={{ color: "#1976d2", fontWeight: 700 }}>
+            <span
+              style={{ color: "#1976d2", fontWeight: 700 }}
+              data-testid={`temp-hp-${character.id}`}
+            >
               {" "}
               + {character.tempHp}
             </span>
@@ -204,6 +220,7 @@ export default function CharacterCard({
             borderRadius: 1.5,
           }}
           onClick={onHeal}
+          data-testid="heal-button"
         >
           <IconPlus size={20} />
         </Button>
@@ -218,6 +235,7 @@ export default function CharacterCard({
             borderRadius: 1.5,
           }}
           onClick={onDamage}
+          data-testid="damage-button"
         >
           <IconSword size={20} />
         </Button>
@@ -232,6 +250,7 @@ export default function CharacterCard({
             borderRadius: 1.5,
           }}
           onClick={onUpdate}
+          data-testid="edit-button"
         >
           <IconEdit size={20} />
         </Button>
